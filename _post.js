@@ -2,6 +2,13 @@ function doPost(e) {
     try {
         const content = e.postData.contents;
         const contentJSON = JSON.parse(content);
+
+        if (contentJSON.hasOwnProperty('userScriptCache')) {
+            if (!contentJSON.userScriptCache) {
+                limparScriptCache();
+            }
+        }
+
         transmitterParam('processarJSON', contentJSON);
         return sendJSON(JSON.stringify({ status: 200, message: "Processado", content: JSON.stringify(e) }))
     } catch (ex) {

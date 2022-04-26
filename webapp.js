@@ -99,6 +99,7 @@ function processarDadosAbaPlanilha(nomeAba, dados) {
             aba.getRange(linhaDados, coluna).offset(0, 0, registros.length, registros[0].length).setValues(registros);
         }
     }
+    debug('fim processarDadosAbaPlanilha')
 }
 
 
