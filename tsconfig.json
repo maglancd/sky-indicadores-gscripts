@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "lib": [
+            "es6",
+            "es2017.string"
+        ],
+        "allowJs": true,
+        "checkJs": true,
+        "types": [
+            "google-apps-script"
+        ]
+    }
+}

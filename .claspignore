@@ -1,0 +1,5 @@
+**/node_modules/**
+gulpfile.js
+jsconfig.json
+tsconfig.json
+
