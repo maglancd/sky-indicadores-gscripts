@@ -3,8 +3,8 @@ function doPost(e) {
         const content = e.postData.contents;
         const contentJSON = JSON.parse(content);
 
-        if (contentJSON.hasOwnProperty('userScriptCache')) {
-            if (!contentJSON.userScriptCache) {
+        if (contentJSON.hasOwnProperty('usarScriptCache')) {
+            if (!contentJSON.usarScriptCache) {
                 limparScriptCache();
             }
         }
