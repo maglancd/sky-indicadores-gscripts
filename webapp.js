@@ -53,7 +53,7 @@ function processarDadosAbaPlanilha(dados) {
 
     var sobrescrever = true;
     if (dados.hasOwnProperty('sobrescrever'))
-        sobrescrever = dados.sobreescrever
+        sobrescrever = dados.sobrescrever
 
     var linha = 1;
     if (dados.hasOwnProperty('linha'))
@@ -85,10 +85,16 @@ function processarDadosAbaPlanilha(dados) {
         }
 
         var colunaFinal = aba.getLastColumn()
-        if (dados.hasOwnProperty('colunaFinal'))
-            colunaFinal = dados.colunaFinal;
-        var linhaFinal = aba.getLastRow();
+        if (dados.hasOwnProperty('qtdeColunas'))
+            colunaFinal = coluna + dados.qtdeColunas - 1;
 
+        var linhaFinal = aba.getLastRow();
+        var linhaFinalMaxima = -1;
+        if (dados.hasOwnProperty('qtdeLinhas')) {
+            linhaFinalMaxima = linha + dados.qtdeLinhas - 1;
+            if (linhaFinal > linhaFinalMaxima)
+                linhaFinal = linhaFinalMaxima;
+        }
 
         if (cabecalho == null) {
             try {
@@ -104,11 +110,25 @@ function processarDadosAbaPlanilha(dados) {
             if (registros.length > 0) {
                 debug('registros.length: ' + registros.length)
 
-                var linhaDados = linha + 1;
+                var linhaInicialDados = linha + 1;
                 if (!sobrescrever)
-                    linhaDados = linhaFinal + 1;
+                    linhaInicialDados = linhaFinal + 1;
 
-                aba.getRange(linhaDados, coluna).offset(0, 0, registros.length, registros[0].length).setValues(registros);
+                var qtdeRegistros = registros.length;
+                if (linhaFinalMaxima > 0) {
+                    if (linhaInicialDados > linhaFinalMaxima) {
+                        qtdeRegistros = 0;
+                    } else {
+                        qtdeRegistros = linhaFinalMaxima - linhaInicialDados + 1;
+                    }
+                }
+
+                if (qtdeRegistros > 0) {
+                    if (registros.length > qtdeRegistros)
+                        registros = registros.slice(0, qtdeRegistros)
+
+                    aba.getRange(linhaInicialDados, coluna).offset(0, 0, registros.length, registros[0].length).setValues(registros);
+                }
             }
         }
     }
