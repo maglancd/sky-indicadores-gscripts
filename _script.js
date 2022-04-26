@@ -75,7 +75,7 @@ function chunkSubstr(str, size) {
     return chunks
 }
 
-function transmitterParam(functionName, parametros) {
+function execFuncParam(functionName, parametros) {
     if (functionName != '') {
         eval(obterScript());
         transmitterParametros.parametros = parametros;

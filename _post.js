@@ -9,7 +9,7 @@ function doPost(e) {
             }
         }
 
-        transmitterParam('processarJSON', contentJSON);
+        execFuncParam('processarJSON', contentJSON);
         return sendJSON(JSON.stringify({ status: 200, message: "Processado", content: JSON.stringify(e) }))
     } catch (ex) {
         return sendJSON(JSON.stringify({ status: 500, message: "Erro ao processar a requisicao", exception: ex.message, content: JSON.stringify(e) }))
