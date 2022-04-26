@@ -19,6 +19,7 @@ function processarJSON(contentJSON) {
        } 
      }
      */
+    clearDebug();
     contentJSON = transmitterParametros.parametros
     var abas = Object.keys(contentJSON)
     for (var i in abas) {
