@@ -24,7 +24,7 @@ function processarJSON(contentJSON) {
         }] 
         }
      */
-    clearDebug();
+
     contentJSON = transmitterParametros.parametros
     if (contentJSON.hasOwnProperty('idArquivoPlanilha')) {
         if (contentJSON['idArquivoPlanilha'] !== '')
@@ -38,8 +38,9 @@ function processarJSON(contentJSON) {
             if (dados.hasOwnProperty('idArquivoPlanilha')) {
                 if (dados['idArquivoPlanilha'] !== '')
                     SS = SpreadsheetApp.openById(dados['idArquivoPlanilha'])
-            }
 
+            }
+            clearDebug();
             debug('dados: ' + JSON.stringify(dados));
             processarDadosAbaPlanilha(dados)
         }
@@ -108,25 +109,29 @@ function processarDadosAbaPlanilha(dados) {
             debug('cabecalho: ' + cabecalho)
             var registros = tableJsonToArray(dados.dados, cabecalho);
             if (registros.length > 0) {
-                debug('registros.length: ' + registros.length)
 
+                debug('registros.length: ' + registros.length)
                 var linhaInicialDados = linha + 1;
                 if (!sobrescrever)
                     linhaInicialDados = linhaFinal + 1;
 
                 var qtdeRegistros = registros.length;
                 if (linhaFinalMaxima > 0) {
+                    debug('linhaFinalMaxima: ' + linhaFinalMaxima)
                     if (linhaInicialDados > linhaFinalMaxima) {
                         qtdeRegistros = 0;
                     } else {
                         qtdeRegistros = linhaFinalMaxima - linhaInicialDados + 1;
                     }
+                    debug('qtdeRegistros: ' + qtdeRegistros)
                 }
 
                 if (qtdeRegistros > 0) {
-                    if (registros.length > qtdeRegistros)
+                    if (registros.length > qtdeRegistros) {
+                        debug('registros.length > qtdeRegistros')
                         registros = registros.slice(0, qtdeRegistros)
-
+                    }
+                    debug('setValues(): linhaInicialDados: ' + linhaInicialDados + ', coluna: ' + coluna + ', registros.length: ' + registros.length)
                     aba.getRange(linhaInicialDados, coluna).offset(0, 0, registros.length, registros[0].length).setValues(registros);
                 }
             }
